@@ -1,0 +1,113 @@
+body {
+    background-image: url(fondo.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #FFFFFF;
+}
+.premios{
+    position: relative;
+    float: right;
+}
+
+.padding{
+    padding: 10px, 100px, 0px,0px;
+}
+
+.contenedor {
+    padding-top: 60px;
+    margin: auto;
+    width: 820px;
+}
+.resultados{
+    width: 450px;
+    border-radius: 30px;
+    border: 1px solid rgba(226, 198, 41, 0.6);
+    box-shadow: 2px 2px 5px #c59615;
+    text-align: center;
+    margin-top:60px ;
+    
+}
+
+.apuestas{
+    color: gold;
+    font-size: larger;
+    
+}
+
+.inputs{
+    background-color: #fdf28c;
+    border-radius: 30px;
+    border: 1px solid rgba(226, 198, 41, 0.6);
+    font-size: larger;
+}
+
+.resultados div .imagen{
+    height: 50px;
+    width: 60px;
+}
+.dinero{
+    font-weight: bolder;
+    border: 1px solid gold;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Esto es para centrar horizontalmente el contenido también */
+    height: 100vh; 
+    background-color: #c59615;
+    width: 100px;
+    height: 90px;
+    text-align: center;
+    position: relative;
+    float: left;
+    border-radius: 70px 70px 70px 70px;
+    -moz-border-radius: 70px 70px 70px 70px;
+    -webkit-border-radius: 70px 70px 70px 70px;
+    border: 0px solid #000000;
+}
+
+
+.imagenes {
+    padding: 10px;
+    border: 1px solid yellow;
+    /* Bordes redondeados. */
+    border-radius: 30px;
+    width: 740px;
+    text-align: center;
+    /* Sombra. */
+    /*box-shadow: 2px 2px 5px #66CCFF inset;*/
+}
+
+.imagen{
+    height: 100px;
+    width: 120px;
+}
+
+img {
+    margin: 8px;
+    border: 1px solid yellow;
+    /* Sombra. */
+    box-shadow: 1px 1px 3px #F7BB1B;
+}
+
+.botones {
+    width: 700px;
+    text-align: center;
+}
+
+.boton {
+    /* Para que los bloques no ocupen todo el ancho. */
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 10px;
+    /* Usamos la fuente cargada de google fonts. */
+    font-family: 'The Girl Next Door', cursive;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 150px;
+    box-shadow: 2px 2px 5px #fdf28c;
+}
+
+.boton:hover {
+    /* Al pasar por encima del bot�n cambia el color de la sombra. */
+    box-shadow: 2px 2px 5px #333;    
+}

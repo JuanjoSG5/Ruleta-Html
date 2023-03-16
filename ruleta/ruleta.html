@@ -1,0 +1,251 @@
+<!doctype html5>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Slot Machine </title>
+        <!-- Carga la fuente desde google.
+             Para usar otra fuente http://www.google.com/fonts -->
+        <link href='http://fonts.googleapis.com/css?family=The+Girl+Next+Door' rel='stylesheet' type='text/css'>
+        <link href='ruleta.css' rel='stylesheet' type='text/css'>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+			function checkBet() {
+                var bet = parseInt(document.getElementsByName('bet')[0].value);
+                
+                while (isNaN(bet) || bet < 100) {
+                    bet = parseInt(prompt("Introduzca una apuesta de al menos 100€"));
+                }
+                if (bet > parseInt(document.getElementsByName('Dinero')[0].value)) {
+                    
+                    alert('No tienes suficiente dinero para hacer la apuesta');
+                }
+            }
+			
+			function checkDinero() {
+				var Dinero = parseInt(document.getElementsByName('Dinero')[0].value)
+				
+				if (isNaN(Dinero)){
+					
+					alert('Please enter Dinero as a numerical value.');
+				}
+				else {
+					if (Dinero <= 0){
+					
+						alert('Please add a valid amount of Dinero to the game.');
+					}
+				}
+			}
+            function restarDinero() {
+            var bet = parseInt(document.getElementsByName('bet')[0].value);
+            var dinero = parseInt(document.getElementById('Dinero').innerText);
+            var resultado = dinero - bet;
+            document.getElementById('Dinero').innerText = resultado;
+        }
+            
+            // Almacenamos los nombres de las imágenes en una variable compleja.
+            // Se denomina tabla y se accede a los valores mediante el indice (empezando por 0).
+            // Por ejemplo: imagenes[0] contiene "rajoy.png"
+            var imagenes = [ "uvas.jpg","limon.png", "bell.png","siete.png"];
+            // Almacenamos el indice de la imagen que esta en cada recuadro.
+            var cuadro = [ 0, 0, 0, 0];
+            // Almacenamos el setInterval de cada recuadro de forma independiente.
+            var intervaloRuleta = [ null, null, null, null];
+            // Variable donde almacenamos el numero de recuadros que están cambiando.
+            var corriendo = 0;
+            // Intervalo del cambio de sombras.
+            var intervaloSombras;
+            var posicionSombras = [[2,2], [-2,2], [-2,-2], [2,-2]];
+            var posicionActualSombra = 0;
+
+            // Función que inicia la ruleta.
+            function ruleta() {
+                // Solo actua cuando estan los tres recuadros parados.
+                if (corriendo == 0) {
+                    // Para el efecto de las sombras.
+                    clearInterval(intervaloSombras);
+                    
+                    // Sortea la imagen con la que comienza cada recuadro.
+                        // Math.random() genera un número en el dominio [0-1)
+                        // Si lo multiplico por tres el dominio pasa a ser [0-3)
+                        // Esta operación genera decimales, para eliminarlos se usa Math.floor()
+                    for(i in cuadro)
+                        cuadro[i] = Math.floor(Math.random() * 4);
+                    
+                    // Genera los intervalos para que cada recuadro cambie de imagen cada centésima de segundo.
+                    intervaloRuleta[0] = setInterval(function() { cambiaImagen(0);}, 20);
+                    intervaloRuleta[1] = setInterval(function() { cambiaImagen(1);}, 20);
+                    intervaloRuleta[2] = setInterval(function() { cambiaImagen(2);}, 20);
+                    intervaloRuleta[3] = setInterval(function() { cambiaImagen(3);}, 20);
+                                     
+                    // Al empezar están cambiando los tres recuadros.
+                    corriendo = 4;
+					
+  }
+}
+
+            // Función que cambia la imagen.
+            function cambiaImagen(x) {
+                // Si la imagen es la última paso a la primera.
+                //  Si no cambia al asiguiente imagen.
+                if(cuadro[x]>=3) cuadro[x]=0;
+                    else cuadro[x] = cuadro[x]+1;
+                
+                // Cambia la propiedad src de la imagen correspondiente en el html.
+                document.getElementById("imag"+x).src = imagenes[cuadro[x]];   
+                
+            
+        }          
+
+		
+            // Función que para un recuadro de la ruleta.
+            function paraRuleta() {
+                // Solo para si hay alguna corriendo.
+                if (corriendo > 0) {
+                    // Como las tablas empiezan en cero, el ultimo valor es 2.
+                    // Restamos uno a los recuadros corriendo.
+                    corriendo = corriendo - 1;
+                    // Paramos el intervalo para que deje de cambiar la imagen del recuadro.
+                    clearInterval(intervaloRuleta[corriendo]);
+
+                    // Si hemos parado el último activamos el efecto de las sombras.
+                    if (corriendo==0) {
+                        cambiaSombras()
+                        cambiaNumero()
+                    }
+                }
+               
+            
+                if (cuadro[0] === cuadro[1] && cuadro[1] === cuadro[2] && cuadro[2] === cuadro[3]) {
+                    
+                    if (cuadro[0] === 0) {
+                        document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 100;
+                    } else if (cuadro[0] === 1) {
+                        document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 200;
+                    } else if (cuadro[0] === 2) {
+                        document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 500;
+                    } else if (cuadro[0] === 3) {
+                        document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 1000;
+                    }
+                    } else if (cuadro[0] === cuadro[1] && cuadro[1] === cuadro[2] || cuadro[1] === cuadro[2] && cuadro[2] === cuadro[3]) {
+                    
+                    document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 50;
+                    } else if (cuadro[0] === cuadro[2] || cuadro[1] === cuadro[3]) {
+                        
+                        if (cuadro[0] === 0 || cuadro[1] === 0 || cuadro[2] === 0 || cuadro[3] === 0) {
+                            document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 20;
+                        } else {
+                            document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) + 10;
+                        }
+                    } else {
+                    
+                    document.getElementById("Dinero").innerText = parseInt(document.getElementById("Dinero").innerText) - document.getElementById("bet");
+                    }
+                                
+            }
+            
+            // Funcion que activa el cambio de las sombras.
+            function cambiaSombras() {
+                // Define el intervalo de cambio de las sombras.
+                intervaloSombras=setInterval(circulaSombras, 100);
+            }
+
+
+            // Cambia las sombras de posición.
+            function circulaSombras() {
+                // Circula entre las posiciones de la sombra.
+                if(posicionActualSombra>=3) posicionActualSombra=0;
+                    else posicionActualSombra=posicionActualSombra+1;
+
+                // Crea el estilo que hay que aplicar a la caja.
+                var estilo = posicionSombras[posicionActualSombra][0]+"px "+posicionSombras[posicionActualSombra][1]+"px 5px #F7BB1B";
+                document.getElementById("imag0").style['boxShadow']=estilo;
+                document.getElementById("imag1").style['boxShadow']=estilo;
+                document.getElementById("imag2").style['boxShadow']=estilo;
+                document.getElementById("imag3").style['boxShadow']=estilo;
+            }
+
+
+            function pararDos(){
+                paraRuleta()
+                paraRuleta()
+            }
+            function pararTodo(){
+                pararDos()
+                pararDos()
+                paraRuleta()
+            }
+            // Get the slot machine and the matches div
+                var slotMachine = document.getElementById("slot-machine");
+                var matchesDiv = document.getElementById("matches");
+
+                // Add an event listener for the mouseover event
+                slotMachine.addEventListener("mouseover", function() {
+                // Clear the matches div
+                matchesDiv.innerHTML = "";
+                // Loop through each slot and get the index of the current image
+                for (var i = 0; i < cuadro.length; i++) {
+                    var index = cuadro[i];
+                    // Get the name of the current image
+                    var imageName = imagenes[index];
+                    // Create a new div for the current match and add it to the matches div
+                    var matchDiv = document.createElement("div");
+                    matchDiv.innerHTML = imageName;
+                    matchesDiv.appendChild(matchDiv);
+                }
+                // Show the matches div
+                matchesDiv.style.display = "block";
+                });
+
+                // Add an event listener for the mouseout event
+                slotMachine.addEventListener("mouseout", function() {
+                // Hide the matches div
+                matchesDiv.style.display = "none";
+                });
+        </script>
+    </head>
+    <body onload="cambiaSombras();">
+		<div class="dinero">
+            Dinero:
+            <br>
+            <div id="Dinero">1000</div>
+        </div> 
+        <div class="contenedor">
+            <div class="imagenes">
+                
+                <img id="imag3" class="imagen" src="siete.png">
+                <img id="imag2" class="imagen" src="siete.png">
+                <img id="imag1" class="imagen" src="siete.png">
+                <img id="imag0" class="imagen" src="siete.png">
+            </div>
+            <div class="botones">
+                <div class="boton" id="iniciar" onclick="ruleta();restarDinero()">Iniciar</div>
+                <div class="boton" id="parar" onclick="paraRuleta();">Parar</div>
+                <div class="boton" id="pararDos" onclick="pararDos();">Parar Dos</div>
+                <div class="boton" id="pararTodo" onclick="pararTodo();">Parar Todo</div>    
+        </div>
+		<br>
+        
+		<div class="apuestas">
+			<td >Apuesta:</td>
+			<td><input class="inputs" type="text" onchange="checkBet()" style="width: 100px" name="bet" value="100"></td>
+			
+		</div>
+        <div class="premios"></div>
+
+		<div class="resultados">
+			<div>
+				<img class="imagen" src="siete.png" alt="">
+				<img class="imagen" src="bell.png" alt="">
+				<img class="imagen" src="limon.png" alt="">
+				<img class="imagen" src="uvas.jpg" alt="">
+			</div>
+		</div>
+        <div id="slot-machine">
+            <div class="slot" id="slot-1"></div>
+            <div class="slot" id="slot-2"></div>
+            <div class="slot" id="slot-3"></div>
+            <div class="slot" id="slot-4"></div>
+          </div>
+          <div id="matches" style="display:none;"></div>
+    </body>
+</html>
